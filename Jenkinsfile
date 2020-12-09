@@ -9,13 +9,6 @@ pipeline {
   
   stages{
     
-
-    
-          stage("Restore Nuget"){
-                      steps {
-                          bat 'C:/tools/nuget.exe restore BlazorApp3.sln'
-                      }
-                    }
   
           stage("Build"){
             steps {
