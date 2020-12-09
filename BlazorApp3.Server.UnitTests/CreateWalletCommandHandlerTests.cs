@@ -49,7 +49,7 @@ namespace BlazorApp3.Server.UnitTests
 
             promotionManagerMock = new Mock<IPromotionManager>();
 
-            promotionManagerMock.Setup(x => x.GetDefaultAmount(It.IsAny<string>())).Returns(500);
+            promotionManagerMock.Setup(x => x.GetDefaultAmount(It.IsAny<string>())).Returns(5000);
         }
 
         [Test]
