@@ -9,11 +9,7 @@ pipeline {
   
   stages{
     
-          stage("Check-out"){
-                  steps {
-                      git 'https://github.com/Ecat3rina/LaboratorIdweb.git'
-                  }
-                }
+
     
           stage("Restore Nuget"){
                       steps {
