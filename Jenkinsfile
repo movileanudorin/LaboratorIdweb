@@ -19,7 +19,7 @@ pipeline {
   
           stage("Test"){
                steps {
-                    echo "Sunt acolo"
+                    bat "dotnet test BlazorApp3.Server.UnitTests\\BlazorApp3.Server.UnitTests.csproj"
                 }
           }
         
