@@ -21,8 +21,7 @@ pipeline {
                steps {
                     bat "dotnet test BlazorApp3.Server.UnitTests\\BlazorApp3.Server.UnitTests.csproj"
                 }
-          }
-        
+	  }
 	  
        }
   
