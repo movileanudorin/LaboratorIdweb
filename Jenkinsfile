@@ -13,7 +13,7 @@ pipeline {
           stage("Build"){
             steps {
                 
-		bat "\"${tool 'MSBuild'}\" BlazorApp3.sln /p:Configuration=Release "
+		bat "${tool 'MSBuild'} BlazorApp3.sln /p:Configuration=Release "
             }
           }
   
