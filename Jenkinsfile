@@ -12,7 +12,7 @@ pipeline {
   
           stage("Build"){
             steps {
-                //bat "nuget restore BlazorApp3.sln"
+                
 		bat "\"${tool 'MSBuild'}\" BlazorApp3.sln -t:restore /p:Configuration=Release /p:Platform=\"Any CPU\""
             }
           }
