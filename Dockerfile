@@ -1,16 +1,19 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+FROM microsoft/dotnet-framework:4.7.2-sdk AS build
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY BlazorApp3/*.csproj ./BlazorApp3/
+COPY BlazorApp3/*.config ./BlazorApp3/
+RUN nuget restore
 
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
+# copy everything else and build app
+COPY BlazorApp3/. ./BlazorApp3/
+WORKDIR /app/BlazorApp3
+RUN msbuild /p:Configuration=Release
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
-WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "BlazorApp3.dll"]
+
+# copy build artifacts into runtime image
+FROM microsoft/aspnet:4.7.2 AS runtime
+WORKDIR /inetpub/wwwroot
+COPY --from=build /app/BlazorApp3/. ./
