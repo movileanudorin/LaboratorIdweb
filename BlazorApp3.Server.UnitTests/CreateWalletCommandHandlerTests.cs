@@ -53,6 +53,61 @@ namespace BlazorApp3.Server.UnitTests
             promotionManagerMock.Setup(x => x.GetDefaultAmount(It.IsAny<string>())).Returns(500);
         }
 
+         [Test]
+        public async Task CreateWalletSuccessful()
+        {
+            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
+
+            var command = new CreateWalletCommand
+            {
+                UserId = "test_user_id",
+                Currency = "EUR"
+            };
+
+            var result = await sut.Handle(command, CancellationToken.None);
+
+            Assert.IsTrue(result.IsSuccessful);
+        }
+
+        [Test]
+        public async Task CreateWalletInvalidCurrency()
+        {
+            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
+
+            var command = new CreateWalletCommand
+            {
+                UserId = "test_user_id",
+                Currency = "RUB"
+            };
+
+            var result = await sut.Handle(command, CancellationToken.None);
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.IsSuccessful);
+                Assert.AreEqual("INVALID_CURRENCY", result.FailureReason);
+            });
+        }
+
+        [Test]
+        public async Task CreateWalletTestAmount()
+        {
+            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
+
+            var command = new CreateWalletCommand
+            {
+                UserId = "test_user_id",
+                Currency = "EUR"
+            };
+
+            var result = await sut.Handle(command, CancellationToken.None);
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.IsSuccessful);
+                Assert.AreEqual(500, result.Amount);
+            });
+        }
        
     }
 }
