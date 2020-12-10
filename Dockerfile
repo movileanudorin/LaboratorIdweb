@@ -4,6 +4,7 @@ WORKDIR /app
 
 # copy csproj and restore as distinct layers
 COPY . .
+#COPY D:\anul3\IDweb\lab3project .
 #COPY *.sln .
 #COPY BlazorApp3/*.csproj ./BlazorApp3/
 #COPY BlazorApp3/*.config ./BlazorApp3/
@@ -14,7 +15,7 @@ RUN dotnet restore
 #WORKDIR /app/
 #COPY BlazorApp3/. ./BlazorApp3/
 #WORKDIR /app/BlazorApp3
-RUN msbuild /p:Configuration=Release
+RUN msbuild /p:Configuration=Release BlazorApp3.sln
 
 
 # copy build artifacts into runtime image
