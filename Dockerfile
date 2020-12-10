@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -14,6 +14,6 @@ RUN msbuild /p:Configuration=Release
 
 
 # copy build artifacts into runtime image
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /inetpub/wwwroot
 COPY --from=build /app/BlazorApp3/. ./
