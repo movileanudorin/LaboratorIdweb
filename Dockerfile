@@ -38,4 +38,6 @@ WORKDIR /inetpub/wwwroot
 COPY --from=build /app/BlazorApp3/. ./
 
 WORKDIR /app
+
+EXPOSE 8081
 ENTRYPOINT ["dotnet", "BlazorApp3.dll"]
