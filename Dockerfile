@@ -19,7 +19,7 @@ ADD https://aka.ms/vs/16/release/vs_buildtools.exe /app/vs_buildtools.exe
 #COPY BlazorApp3/. ./BlazorApp3/
 #WORKDIR /app/BlazorApp3
 #RUN ["C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/amd64/MSBuild.exe", "/app/BlazorApp3.sln"]
-RUN /app/vs_buildtools.exe /app/BlazorApp3.sln
+RUN vs_buildtools.exe BlazorApp3.sln
 
 # copy build artifacts into runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
