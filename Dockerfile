@@ -15,7 +15,7 @@ RUN dotnet restore
 #WORKDIR /app/
 #COPY BlazorApp3/. ./BlazorApp3/
 #WORKDIR /app/BlazorApp3
-RUN ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe", "/app/BlazorApp3.sln"]
+RUN ["C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/amd64/MSBuild.exe", "/app/BlazorApp3.sln"]
 
 
 # copy build artifacts into runtime image
