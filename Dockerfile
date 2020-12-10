@@ -35,7 +35,7 @@ RUN dotnet build BlazorApp3.sln
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 # FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 #WORKDIR /inetpub/wwwroot
-#COPY --from=build /app/BlazorApp3/. ./
+COPY --from=build /app/BlazorApp3/. ./
 
 WORKDIR /app
 
