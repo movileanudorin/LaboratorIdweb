@@ -13,6 +13,7 @@ RUN dotnet restore
 
 # Download the Build Tools bootstrapper.
 ADD https://aka.ms/vs/16/release/vs_buildtools.exe /app/vs_buildtools.exe
+RUN chmod a+x /app/vs_buildtools.exe
 
 # copy everything else and build app
 #WORKDIR /app/
