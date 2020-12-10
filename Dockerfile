@@ -28,7 +28,7 @@ RUN dotnet restore
 
 #RUN /app/vs_buildtools.exe /app/BlazorApp3.sln
 
-RUN msbuild BlazorApp3.sln
+RUN msbuild BlazorApp3.sln -t:rebuild
 
 # copy build artifacts into runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
