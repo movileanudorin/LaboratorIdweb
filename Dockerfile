@@ -12,9 +12,9 @@ COPY . .
 RUN dotnet restore
 
 # Download the Build Tools bootstrapper.
-USER administrator
+#USER administrator
 ADD https://aka.ms/vs/16/release/vs_buildtools.exe /app/vs_buildtools.exe
-RUN chmod 777 /app/vs_buildtools.exe
+RUN chmod +x /app/vs_buildtools.exe
 #RUN chmod a+x /app/vs_buildtools.exe
 
 # copy everything else and build app
@@ -22,7 +22,7 @@ RUN chmod 777 /app/vs_buildtools.exe
 #COPY BlazorApp3/. ./BlazorApp3/
 #WORKDIR /app/BlazorApp3
 #RUN ["C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/amd64/MSBuild.exe", "/app/BlazorApp3.sln"]
-USER administrator
+#USER administrator
 RUN /app/vs_buildtools.exe /app/BlazorApp3.sln
 
 # copy build artifacts into runtime image
