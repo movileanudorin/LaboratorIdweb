@@ -6,9 +6,11 @@ WORKDIR /app
 COPY *.sln .
 COPY BlazorApp3/*.csproj ./BlazorApp3/
 COPY BlazorApp3/*.config ./BlazorApp3/
+WORKDIR /app/BlazorApp3
 RUN dotnet restore
 
 # copy everything else and build app
+WORKDIR /app/
 COPY BlazorApp3/. ./BlazorApp3/
 WORKDIR /app/BlazorApp3
 RUN msbuild /p:Configuration=Release
