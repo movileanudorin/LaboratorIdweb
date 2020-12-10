@@ -5,7 +5,7 @@ WORKDIR /app
 COPY *.sln .
 COPY BlazorApp3/*.csproj ./BlazorApp3/
 COPY BlazorApp3/*.config ./BlazorApp3/
-RUN nuget restore
+RUN dotnet restore
 
 # copy everything else and build app
 COPY BlazorApp3/. ./BlazorApp3/
