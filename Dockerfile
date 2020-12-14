@@ -28,16 +28,21 @@ RUN dotnet restore
 
 #RUN /app/vs_buildtools.exe /app/BlazorApp3.sln
 
-RUN dotnet build BlazorApp3.sln
+RUN dotnet build BlazorApp3.sln -c Release
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /publish
+
 #RUN msbuild BlazorApp3.sln -t:rebuild
 
 # copy build artifacts into runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 # FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 #WORKDIR /inetpub/wwwroot
-COPY --from=build /app/BlazorApp3/. ./
 
+#COPY --from=build /app/BlazorApp3/. ./
 WORKDIR /app
+COPY --from=publish /publish .
 
-EXPOSE 8081
-ENTRYPOINT ["dotnet", "BlazorApp3.dll"]
+EXPOSE 80
+ENTRYPOINT ["dotnet", "BlazorApp3.Server.dll"]
