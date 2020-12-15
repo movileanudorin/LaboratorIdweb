@@ -2,7 +2,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 # FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 
 #RUN dotnet new -i Microsoft.AspNetCore.Components.WebAssembly.Templates::3.2.0-preview3.20168.3
-RUN pip install Microsoft.Extensions.DependencyInjection.Abstractions -Version 5.0.0
+#RUN pip install Microsoft.Extensions.DependencyInjection.Abstractions -Version 5.0.0
+RUN dotnet add package Microsoft.Extensions.DependencyInjection.Abstractions --version 5.0.0
 
 WORKDIR /app
 
