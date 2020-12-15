@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
 #RUN dotnet new -i Microsoft.AspNetCore.Components.WebAssembly.Templates::3.2.0-preview3.20168.3
 #RUN pip install Microsoft.Extensions.DependencyInjection.Abstractions -Version 5.0.0
-RUN dotnet add package Microsoft.Extensions.DependencyInjection.Abstractions --version 5.0.0
+
 
 WORKDIR /app
 
@@ -15,6 +15,8 @@ COPY . .
 #COPY BlazorApp3/*.config ./BlazorApp3/
 ##WORKDIR /app/BlazorApp3
 RUN dotnet restore
+
+RUN dotnet add /app/BlazorApp3/Server/BlazorApp3.Server.csproj package Microsoft.Extensions.DependencyInjection.Abstractions --version 5.0.0
 
 # Download the Build Tools bootstrapper.
 #USER administrator
