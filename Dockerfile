@@ -1,55 +1,22 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-# FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-
-#RUN dotnet new -i Microsoft.AspNetCore.Components.WebAssembly.Templates::3.2.0-preview3.20168.3
-#RUN pip install Microsoft.Extensions.DependencyInjection.Abstractions -Version 5.0.0
-
-
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# copy csproj and restore as distinct layers
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["BlazorApp3/Server/BlazorApp3.Server.csproj", "BlazorApp3/Server/"]
+COPY ["BlazorApp3/Client/BlazorApp3.Client.csproj", "BlazorApp3/Client/"]
+COPY ["BlazorApp3/Shared/BlazorApp3.Shared.csproj", "BlazorApp3/Shared/"]
+RUN dotnet restore "BlazorApp3/Server/BlazorApp3.Server.csproj"
 COPY . .
-#COPY D:\anul3\IDweb\lab3project .
-#COPY *.sln .
-#COPY BlazorApp3/*.csproj ./BlazorApp3/
-#COPY BlazorApp3/*.config ./BlazorApp3/
-##WORKDIR /app/BlazorApp3
-RUN dotnet restore
-
-RUN dotnet add /app/BlazorApp3/Server/BlazorApp3.Server.csproj package Microsoft.Extensions.DependencyInjection.Abstractions --version 5.0.0
-
-# Download the Build Tools bootstrapper.
-#USER administrator
-
-#ADD https://aka.ms/vs/16/release/vs_buildtools.exe /app/vs_buildtools.exe
-#RUN chmod +x /app/vs_buildtools.exe
-
-#RUN chmod a+x /app/vs_buildtools.exe
-
-# copy everything else and build app
-#WORKDIR /app/
-#COPY BlazorApp3/. ./BlazorApp3/
-#WORKDIR /app/BlazorApp3
-#RUN ["C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/amd64/MSBuild.exe", "/app/BlazorApp3.sln"]
-#USER administrator
-
-#RUN /app/vs_buildtools.exe /app/BlazorApp3.sln
-
-RUN dotnet build BlazorApp3.sln -c Release
+WORKDIR "/src/BlazorApp3/Server"
+RUN dotnet build "BlazorApp3.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /publish
+RUN dotnet publish "BlazorApp3.Server.csproj" -c Release -o /app/publish
 
-#RUN msbuild BlazorApp3.sln -t:rebuild
-
-# copy build artifacts into runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
-# FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
-#WORKDIR /inetpub/wwwroot
-
-#COPY --from=build /app/BlazorApp3/. ./
+FROM base AS final
 WORKDIR /app
-COPY --from=publish /publish .
-
-EXPOSE 80
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "BlazorApp3.Server.dll"]
