@@ -36,7 +36,7 @@ namespace Endava_Project.Tests
             context.SaveChanges();
         }
 
-        [Test] //Test pentru a verifica daca putem crea un Wallet cu un currency valid 
+        [Test] //if we can create a wallet with valid currency
         public async Task CreateWalletSuccessful()
         {
             var sut = new CreateWalletCommandHandler(context);
@@ -52,7 +52,7 @@ namespace Endava_Project.Tests
             Assert.IsTrue(result.IsSuccessful);
         }
 
-        [Test] //Test pentru a verifica daca putem crea un Wallet cu un currency invalid 
+        [Test] //if we can create a wallet with invalid currency
         public async Task CreateWalletUnsuccessful()
         {
             var sut = new CreateWalletCommandHandler(context);
