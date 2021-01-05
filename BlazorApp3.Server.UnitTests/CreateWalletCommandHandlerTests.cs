@@ -1,6 +1,6 @@
-using Endava_Project.Server.Application.WalletMethods.Command;
-using Endava_Project.Server.Data;
-using Endava_Project.Server.Models;
+using BlazorApp3.Server.Application.WalletMethods.Command;
+using BlazorApp3.Server.Data;
+using BlazorApp3.Server.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Endava_Project.Tests
+namespace BlazorApp3.Tests
 {
     public class CreateWalletCommandHandlerTests
     {
