@@ -27,7 +27,12 @@ pipeline {
        			bat "dotnet publish BlazorApp3\\Server\\BlazorApp3.Server.csproj"
      		}
 	  }
-	  
        }
+	
+  post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        }
+    }
   
 }
