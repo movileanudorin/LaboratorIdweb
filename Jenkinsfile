@@ -22,6 +22,12 @@ pipeline {
                 }
 	  }
 	  
+	  stage('Publish'){
+     		steps{
+       			bat "dotnet publish BlazorApp3\\Server\\BlazorApp3.Server.csproj"
+     		}
+	  }
+	  
        }
   
 }
