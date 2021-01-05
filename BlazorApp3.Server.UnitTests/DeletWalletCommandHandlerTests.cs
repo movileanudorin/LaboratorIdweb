@@ -47,7 +47,7 @@ namespace Endava_Project.Tests
             context.SaveChanges();
         }
 
-        [Test] //Test pentru a verifica daca putem sterge un wallet al carui Id exista in BD 
+        [Test] //if we can delete a wallet with existent ID in BD
         public async Task DeletWalletSuccessful()
         {
             var sut = new DeletWalletCommandHandler(context);
@@ -63,7 +63,7 @@ namespace Endava_Project.Tests
             Assert.IsTrue(result.IsSuccessful);
         }
 
-        [Test] //Test pentru a verifica daca putem sterge un wallet al carui Id nu exista in BD 
+        [Test] //if we can delete a wallet with non-existent ID in BD
         public async Task DeletWalletUnsuccessful()
         {
             var sut = new DeletWalletCommandHandler(context);
