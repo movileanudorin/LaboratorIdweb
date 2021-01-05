@@ -1,24 +1,18 @@
-﻿using BlazorApp3.Server.Application.Promotion;
-using BlazorApp3.Server.Application.Wallets.Commands;
-using BlazorApp3.Server.Data;
-using BlazorApp3.Server.Models;
+using Endava_Project.Server.Application.WalletMethods.Command;
+using Endava_Project.Server.Data;
+using Endava_Project.Server.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-
-namespace BlazorApp3.Server.UnitTests
+namespace Endava_Project.Tests
 {
     public class CreateWalletCommandHandlerTests
     {
         private ApplicationDbContext context;
-        private Mock<IPromotionManager> promotionManagerMock;
 
         [SetUp]
         public void Setup()
@@ -34,29 +28,18 @@ namespace BlazorApp3.Server.UnitTests
             var user = new ApplicationUser
             {
                 Id = "test_user_id",
-                Wallets = new List<Wallet>
-                {
-                    new Wallet
-                    {
-                        Amount = 100,
-                        Currency = "EC"
-                    }
-                }
+                Wallets = new List<Wallet>()
             };
 
             context.Add(user);
 
             context.SaveChanges();
-
-            promotionManagerMock = new Mock<IPromotionManager>();
-
-            promotionManagerMock.Setup(x => x.GetDefaultAmount(It.IsAny<string>())).Returns(500);
         }
 
-         [Test]
+        [Test] //Test pentru a verifica daca putem crea un Wallet cu un currency valid 
         public async Task CreateWalletSuccessful()
         {
-            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
+            var sut = new CreateWalletCommandHandler(context);
 
             var command = new CreateWalletCommand
             {
@@ -69,45 +52,20 @@ namespace BlazorApp3.Server.UnitTests
             Assert.IsTrue(result.IsSuccessful);
         }
 
-        [Test]
-        public async Task CreateWalletInvalidCurrency()
+        [Test] //Test pentru a verifica daca putem crea un Wallet cu un currency invalid 
+        public async Task CreateWalletUnsuccessful()
         {
-            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
+            var sut = new CreateWalletCommandHandler(context);
 
             var command = new CreateWalletCommand
             {
                 UserId = "test_user_id",
-                Currency = "RUB"
+                Currency = "EURR"
             };
 
             var result = await sut.Handle(command, CancellationToken.None);
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.IsSuccessful);
-                Assert.AreEqual("INVALID_CURRENCY", result.FailureReason);
-            });
+            Assert.IsFalse(result.IsSuccessful);
         }
-
-        [Test]
-        public async Task CreateWalletTestAmount()
-        {
-            var sut = new CreateWalletCommandHandler(context, promotionManagerMock.Object);
-
-            var command = new CreateWalletCommand
-            {
-                UserId = "test_user_id",
-                Currency = "EUR"
-            };
-
-            var result = await sut.Handle(command, CancellationToken.None);
-
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.IsSuccessful);
-                Assert.AreEqual(500, result.Amount);
-            });
-        }
-       
     }
 }
